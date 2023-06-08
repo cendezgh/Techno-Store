@@ -1,402 +1,277 @@
-//Mis constantes y variables
-const televisores = [
-  {
-    grupo: "Televisor",
-    marca: "Samsung",
-    imagen: "./images/tv-samsung55.webp",
-    pulgadas: 55,
-    tecnologia: "LED",
-    precio: 800,
-  },
-  {
-    grupo: "Televisor",
-    marca: "LG",
-    imagen: "./images/tv-lg50.webp",
-    pulgadas: 50,
-    tecnologia: "OLED",
-    precio: 1200,
-  },
-  {
-    grupo: "Televisor",
-    marca: "Samsung",
-    imagen: "./images/tv-samsung65.webp",
-    pulgadas: 65,
-    tecnologia: "QLED",
-    precio: 1500,
-  },
-  {
-    grupo: "Televisor",
-    marca: "Sony",
-    imagen: "./images/tv-sony65.webp",
-    pulgadas: 65,
-    tecnologia: "LED",
-    precio: 700,
-  },
-  {
-    grupo: "Televisor",
-    marca: "LG",
-    imagen: "./images/tv-lg60.webp",
-    pulgadas: 60,
-    tecnologia: "QLED",
-    precio: 2000,
-  },
-];
+// Definición de variables y constantes
+let televisores = [];
+let audifonos = [];
+let proyectores = [];
+let smartphones = [];
 
-const audifonos = [
-  {
-    grupo: "Audifono",
-    marca: "Bose",
-    imagen: "./images/audi-bose-20-i.webp",
-    potencia: 20,
-    tipo: "inalámbricos",
-    precio: 100,
-  },
-  {
-    grupo: "Audifono",
-    marca: "JBL",
-    imagen: "./images/audi-jbl-30-a.webp",
-    potencia: 30,
-    tipo: "alámbricos",
-    precio: 50,
-  },
-  {
-    grupo: "Audifono",
-    marca: "Sony",
-    imagen: "./images/audi-sony-25-i.webp",
-    potencia: 25,
-    tipo: "inalámbricos",
-    precio: 75,
-  },
-  {
-    grupo: "Audifono",
-    marca: "Bose",
-    imagen: "./images/audi-bose-15-i.webp",
-    potencia: 15,
-    tipo: "inalámbricos",
-    precio: 80,
-  },
-  {
-    grupo: "Audifono",
-    marca: "JBL",
-    imagen: "./images/audi-jbl-35-i.webp",
-    potencia: 35,
-    tipo: "inalámbricos",
-    precio: 120,
-  },
-];
+// Función para cargar la información inicial desde un archivo JSON
+function cargarInformacionInicial() {
+  fetch("productos.json")
+    .then((response) => response.json())
+    .then((data) => {
 
-const proyectores = [
-  {
-    grupo: "Proyector",
-    marca: "Epson",
-    imagen: "./images/proy-epson-2000.webp",
-    lumens: 2000,
-    precio: 400,
-  },
-  {
-    grupo: "Proyector",
-    marca: "BenQ",
-    imagen: "./images/proy-benq-2500.webp",
-    lumens: 2500,
-    precio: 550,
-  },
-  {
-    grupo: "Proyector",
-    marca: "Epson",
-    imagen: "./images/proy-epson-3500.webp",
-    lumens: 3500,
-    precio: 700,
-  },
-  {
-    grupo: "Proyector",
-    marca: "Epson",
-    imagen: "./images/proy-epson-1500.webp",
-    lumens: 1500,
-    precio: 300,
-  },
-  {
-    grupo: "Proyector",
-    marca: "BenQ",
-    imagen: "./images/proy-benq-3500.webp",
-    lumens: 3500,
-    precio: 900,
-  },
-];
+      // Obtener los arrays de cada producto
+      televisores = data.televisores;
+      audifonos = data.audifonos;
+      proyectores = data.proyectores;
+      smartphones = data.smartphones;
 
-const smartphones = [
-  {
-    grupo: "Smartphone",
-    marca: "Samsung",
-    imagen: "./images/phone-samsung-6.1.webp",
-    pantalla: "6.1 pulgadas",
-    ram: "4GB",
-    capacidad: "128GB",
-    procesador: "Snapdragon 765",
-    precio: 400,
-  },
-  {
-    grupo: "Smartphone",
-    marca: "Xiaomi",
-    imagen: "./images/phone-xiaomi-6.5.webp",
-    pantalla: "6.5 pulgadas",
-    ram: "6GB",
-    capacidad: "128GB",
-    procesador: "MediaTek Helio G95",
-    precio: 300,
-  },
-  {
-    grupo: "Smartphone",
-    marca: "Samsung",
-    imagen: "./images/phone-samsung-5.8.webp",
-    pantalla: "5.8 pulgadas",
-    ram: "3GB",
-    capacidad: "64GB",
-    procesador: "Apple A14",
-    precio: 800,
-  },
-  {
-    grupo: "Smartphone",
-    marca: "OnePlus",
-    imagen: "./images/phone-oneplus-6.7.webp",
-    pantalla: "6.7 pulgadas",
-    ram: "8GB",
-    capacidad: "256GB",
-    procesador: "Qualcomm Snapdragon 888",
-    precio: 1200,
-  },
-  {
-    grupo: "Smartphone",
-    marca: "Xiaomi",
-    imagen: "./images/phone-xiaomi-6.2.webp",
-    pantalla: "6.2 pulgadas",
-    ram: "4GB",
-    capacidad: "64GB",
-    procesador: "Exynos 9611",
-    precio: 250,
-  },
-];
-
-const todosLosProductos = televisores.concat(
-  audifonos,
-  proyectores,
-  smartphones
-);
-let carritoCompra = [];
-
-function guardarCarrito() {
-  localStorage.setItem("carrito", JSON.stringify(carritoCompra));
-}
-
-function cargarCarrito() {
-  const carritoGuardado = localStorage.getItem("carrito");
-  if (carritoGuardado) {
-    carritoCompra = JSON.parse(carritoGuardado);
-  }
-
-  const cantidadEnCarrito = localStorage.getItem("cantidad-carrito");
-  const contador = document.getElementById("contador-carrito");
-
-  if (cantidadEnCarrito === null || parseInt(cantidadEnCarrito) === 0) {
-    contador.classList.add("esconder");
-    contador.textContent = "0";
-  } else {
-    contador.classList.remove("esconder");
-    contador.textContent = cantidadEnCarrito;
-  }
-}
-
-function mostrarCarrito() {
-  const contenedorCarrito = document.getElementById("mi-carrito");
-  contenedorCarrito.innerHTML = "";
-
-  const cerrarIcono = document.createElement("i");
-  cerrarIcono.classList.add("fa-solid", "fa-xmark", "close-cart");
-
-  cerrarIcono.addEventListener("click", () => {
-    aparecer.style.right = "-505px";
-  });
-
-  contenedorCarrito.prepend(cerrarIcono);
-
-  if (carritoCompra.length === 0) {
-    const mensaje = document.createElement("p");
-    mensaje.textContent = "El carrito está vacío";
-    contenedorCarrito.appendChild(mensaje);
-
-    const contador = document.getElementById("contador-carrito");
-    contador.classList.add("esconder");
-    contador.textContent = "0";
-
-    return;
-  }
-
-  let cantidadEnCarrito = carritoCompra.reduce(
-    (total, producto) => total + producto.cantidad,
-    0
-  );
-
-  let valorTotalCarrito = carritoCompra.reduce((total, producto) => {
-    return total + (producto.precio * producto.cantidad);
-  }, 0);
-
-  const contador = document.getElementById("contador-carrito");
-
-  if (cantidadEnCarrito === 0) {
-    contador.classList.add("esconder");
-  } else {
-    contador.classList.remove("esconder");
-    contador.textContent = cantidadEnCarrito;
-  }
-
-  carritoCompra.forEach((producto) => {
-    const productoDiv = document.createElement("div");
-
-    const miniFoto = document.createElement("img");
-    miniFoto.src = producto.imagen;
-
-    const tituloMarcaGrupoDiv = document.createElement("div");
-    tituloMarcaGrupoDiv.textContent = `${producto.grupo} ${producto.marca}`;
-
-    const cantidadDiv = document.createElement("div");
-    cantidadDiv.textContent = `X ${producto.cantidad}`;
-
-    const valorTotalDiv = document.createElement("div");
-    valorTotalDiv.textContent = `Valor total: USD ${producto.precio * producto.cantidad}`;
-
-    const eliminarIcono = document.createElement("i");
-    eliminarIcono.classList.add("fa-solid", "fa-circle-xmark");
-    eliminarIcono.title = "Eliminar Item";
-
-    eliminarIcono.addEventListener("click", () => {
-      let index = carritoCompra.findIndex((item) =>
-        objetosIguales(item, producto)
+      // Combinar los arrays en uno solo
+      const todosLosProductos = televisores.concat(
+        audifonos,
+        proyectores,
+        smartphones
       );
-      carritoCompra.splice(index, 1);
-      cantidadEnCarrito = carritoCompra.reduce(
-        (total, producto) => total + producto.cantidad,
-        0
+
+      // Arreglo para almacenar los productos que se encuentran en el carrito de compra
+      let carritoCompra = [];
+
+      // Función para guardar el contenido del carrito de compra en localStorage
+      function guardarCarrito() {
+        localStorage.setItem("carrito", JSON.stringify(carritoCompra));
+      }
+
+      // Función para cargar el contenido del carrito de compra previamente guardado en localStorage
+      function cargarCarrito() {
+        const carritoGuardado = localStorage.getItem("carrito");
+        if (carritoGuardado) {
+          carritoCompra = JSON.parse(carritoGuardado);
+        }
+
+        const cantidadEnCarrito = localStorage.getItem("cantidad-carrito");
+        const contador = document.getElementById("contador-carrito");
+
+        if (cantidadEnCarrito === null || parseInt(cantidadEnCarrito) === 0) {
+          contador.classList.add("esconder");
+          contador.textContent = "0";
+        } else {
+          contador.classList.remove("esconder");
+          contador.textContent = cantidadEnCarrito;
+        }
+      }
+
+      // Función para mostrar los productos que se encuentran en el carrito de compra
+      function mostrarCarrito() {
+        const contenedorCarrito = document.getElementById("mi-carrito");
+        contenedorCarrito.innerHTML = "";
+
+        const cerrarIcono = document.createElement("i");
+        cerrarIcono.classList.add("fa-solid", "fa-xmark", "close-cart");
+
+        cerrarIcono.addEventListener("click", () => {
+          aparecer.style.right = "-505px";
+        });
+
+        contenedorCarrito.prepend(cerrarIcono);
+
+        if (carritoCompra.length === 0) {
+          const mensaje = document.createElement("p");
+          mensaje.textContent = "El carrito está vacío";
+          contenedorCarrito.appendChild(mensaje);
+
+          const contador = document.getElementById("contador-carrito");
+          contador.classList.add("esconder");
+          contador.textContent = "0";
+
+          return;
+        }
+
+        let cantidadEnCarrito = carritoCompra.reduce(
+          (total, producto) => total + producto.cantidad,
+          0
+        );
+
+        let valorTotalCarrito = carritoCompra.reduce((total, producto) => {
+          return total + producto.precio * producto.cantidad;
+        }, 0);
+
+        const contador = document.getElementById("contador-carrito");
+
+        if (cantidadEnCarrito === 0) {
+          contador.classList.add("esconder");
+        } else {
+          contador.classList.remove("esconder");
+          contador.textContent = cantidadEnCarrito;
+        }
+
+        // Recorrer los productos que se encuentran en el carrito y crear elementos HTML para cada uno
+        carritoCompra.forEach((producto) => {
+          const productoDiv = document.createElement("div");
+
+          const miniFoto = document.createElement("img");
+          miniFoto.src = producto.imagen;
+
+          const tituloMarcaGrupoDiv = document.createElement("div");
+          tituloMarcaGrupoDiv.textContent = `${producto.grupo} ${producto.marca}`;
+
+          const cantidadDiv = document.createElement("div");
+          cantidadDiv.textContent = `X ${producto.cantidad}`;
+
+          const valorTotalDiv = document.createElement("div");
+          valorTotalDiv.textContent = `Valor total: USD ${
+            producto.precio * producto.cantidad
+          }`;
+
+          // Icono para eliminar el producto del carrito de compra
+          const eliminarIcono = document.createElement("i");
+          eliminarIcono.classList.add("fa-solid", "fa-circle-xmark");
+          eliminarIcono.title = "Eliminar Item";
+
+          // Listener Remover el producto del carrito cuando se hace click en el icono correspondiente
+          eliminarIcono.addEventListener("click", () => {
+            let index = carritoCompra.findIndex((item) =>
+              objetosIguales(item, producto)
+            );
+            carritoCompra.splice(index, 1);
+            cantidadEnCarrito = carritoCompra.reduce(
+              (total, producto) => total + producto.cantidad,
+              0
+            );
+            localStorage.setItem(
+              "cantidad-carrito",
+              cantidadEnCarrito.toString()
+            );
+            guardarCarrito();
+            mostrarCarrito();
+          });
+
+          // Agregar los elementos HTML creados para cada producto al contenedor general del carrito
+          productoDiv.appendChild(miniFoto);
+          productoDiv.appendChild(tituloMarcaGrupoDiv);
+          productoDiv.appendChild(cantidadDiv);
+          productoDiv.appendChild(valorTotalDiv);
+          productoDiv.appendChild(eliminarIcono);
+
+          contenedorCarrito.appendChild(productoDiv);
+        });
+
+        // Agregar un elemento HTML que muestre el valor total del contenido actual del carrito de compra
+        const valorTotalCarritoTitle = document.createElement("h4");
+        valorTotalCarritoTitle.textContent = `Valor Total del Carrito: USD ${valorTotalCarrito}`;
+        contenedorCarrito.appendChild(valorTotalCarritoTitle);
+
+        // Agregar un botón para vaciar el contenido del carrito
+        const botonVaciar = document.createElement("a");
+        botonVaciar.textContent = "Vaciar Carrito";
+        botonVaciar.className = "boton";
+
+        // Listener Vaciar el contenido cuando se hace click en el botón correspondiente
+        botonVaciar.addEventListener("click", () => {
+          carritoCompra = [];
+          localStorage.removeItem("carrito");
+          localStorage.setItem("cantidad-carrito", "0");
+          mostrarCarrito();
+        });
+
+        contenedorCarrito.appendChild(botonVaciar);
+      }
+
+      // Función para determinar si dos objetos son iguales, comparando sus propiedades
+      function objetosIguales(objeto1, objeto2) {
+        const propsObj1 = Object.getOwnPropertyNames(objeto1);
+        const propsObj2 = Object.getOwnPropertyNames(objeto2);
+
+        if (propsObj1.length !== propsObj2.length) {
+          return false;
+        }
+
+        for (let i = 0; i < propsObj1.length; i++) {
+          const propName = propsObj1[i];
+          if (objeto1[propName] !== objeto2[propName]) {
+            return false;
+          }
+        }
+
+        return true;
+      }
+
+      // Obtener el contenedor HTML donde se agregarán los productos a la venta
+      const contenedorProductos = document.getElementById(
+        "contenedor-productos"
       );
-      localStorage.setItem("cantidad-carrito", cantidadEnCarrito.toString());
-      guardarCarrito();
+
+      // Recorrer todos los productos y crear elementos HTML para cada uno
+      todosLosProductos.forEach((producto) => {
+        const card = document.createElement("div");
+        card.className = "card";
+
+        const titulo = document.createElement("h3");
+        titulo.textContent = `${producto.grupo} ${producto.marca}`;
+
+        const foto = document.createElement("img");
+        foto.src = producto.imagen;
+
+        const precio = document.createElement("div");
+        precio.textContent = `USD ${producto.precio}`;
+
+        const listaCaracteristicas = document.createElement("ul");
+
+        // Lista de características para cada producto
+        for (const propiedad in producto) {
+          if (
+            propiedad !== "grupo" &&
+            propiedad !== "marca" &&
+            propiedad !== "precio" &&
+            propiedad !== "imagen"
+          ) {
+            const caracteristica = document.createElement("li");
+            caracteristica.textContent = `${propiedad}: ${producto[propiedad]}`;
+            listaCaracteristicas.appendChild(caracteristica);
+          }
+        }
+
+        // Agregar un botón para agregar el producto al carrito de compra
+        const boton = document.createElement("a");
+        boton.textContent = "Agregar al Carrito";
+        boton.className = "boton";
+
+        // Listener para agregar el producto cuando se hace click en el botón correspondiente
+        boton.addEventListener("click", () => {
+          let indexProductoEnCarrito = -1;
+
+          for (let i = 0; i < carritoCompra.length; i++) {
+            if (objetosIguales(carritoCompra[i], producto)) {
+              indexProductoEnCarrito = i;
+              break;
+            }
+          }
+
+          if (indexProductoEnCarrito >= 0) {
+            carritoCompra[indexProductoEnCarrito].cantidad++;
+          } else {
+            producto.cantidad = 1;
+            carritoCompra.push(producto);
+          }
+
+          console.log("Carrito:", carritoCompra);
+          mostrarCarrito();
+          guardarCarrito();
+        });
+
+        // Agregar los elementos HTML creados para cada producto al contenedor general de productos a la venta
+        card.appendChild(titulo);
+        card.appendChild(foto);
+        card.appendChild(precio);
+        card.appendChild(listaCaracteristicas);
+        card.appendChild(boton);
+        contenedorProductos.appendChild(card);
+      });
+
+      // Obtener los elementos HTML para mostrar el carrito de compra
+      const iconCart = document.querySelector(".icon-cart");
+      const aparecer = document.querySelector(".aparecer");
+
+      // Event listener para mostrar u ocultar el carrito de compra al hacer click en su correspondiente ícono
+      iconCart.addEventListener("click", () => {
+        aparecer.style.right =
+          aparecer.style.right === "0px" ? "-510px" : "0px";
+      });
+
+      // Cargar y mostrar el contenido previo del carrito de compra
+      cargarCarrito();
       mostrarCarrito();
     });
-
-    productoDiv.appendChild(miniFoto);
-    productoDiv.appendChild(tituloMarcaGrupoDiv);
-    productoDiv.appendChild(cantidadDiv);
-    productoDiv.appendChild(valorTotalDiv);
-    productoDiv.appendChild(eliminarIcono);
-
-    contenedorCarrito.appendChild(productoDiv);
-  });
-
-  
-
-  const valorTotalCarritoTitle = document.createElement('h4');
-  valorTotalCarritoTitle.textContent=`Valor Total del Carrito: USD ${valorTotalCarrito}`;
-  contenedorCarrito.appendChild(valorTotalCarritoTitle);
-
-  const botonVaciar = document.createElement("a");
-  botonVaciar.textContent = "Vaciar Carrito";
-  botonVaciar.className = "boton";
-
-  botonVaciar.addEventListener("click", () => {
-    carritoCompra = [];
-    localStorage.removeItem("carrito");
-    localStorage.setItem("cantidad-carrito", "0");
-    mostrarCarrito();
-  });
-
-  contenedorCarrito.appendChild(botonVaciar);
 }
 
-function objetosIguales(objeto1, objeto2) {
-  const propsObj1 = Object.getOwnPropertyNames(objeto1);
-  const propsObj2 = Object.getOwnPropertyNames(objeto2);
-
-  if (propsObj1.length !== propsObj2.length) {
-    return false;
-  }
-
-  for (let i = 0; i < propsObj1.length; i++) {
-    const propName = propsObj1[i];
-    if (objeto1[propName] !== objeto2[propName]) {
-      return false;
-    }
-  }
-
-  return true;
-}
-
-const contenedorProductos = document.getElementById("contenedor-productos");
-
-todosLosProductos.forEach((producto) => {
-  const card = document.createElement("div");
-  card.className = "card";
-
-  const titulo = document.createElement("h3");
-  titulo.textContent = `${producto.grupo} ${producto.marca}`;
-
-  const foto = document.createElement("img");
-  foto.src = producto.imagen;
-
-  const precio = document.createElement("div");
-  precio.textContent = `USD ${producto.precio}`;
-
-  const listaCaracteristicas = document.createElement("ul");
-  for (const propiedad in producto) {
-    if (
-      propiedad !== "grupo" &&
-      propiedad !== "marca" &&
-      propiedad !== "precio" &&
-      propiedad !== "imagen"
-    ) {
-      const caracteristica = document.createElement("li");
-      caracteristica.textContent = `${propiedad}: ${producto[propiedad]}`;
-      listaCaracteristicas.appendChild(caracteristica);
-    }
-  }
-
-  const boton = document.createElement("a");
-  boton.textContent = "Agregar al Carrito";
-  boton.className = "boton";
-
-  boton.addEventListener("click", () => {
-    let indexProductoEnCarrito = -1;
-
-    for (let i = 0; i < carritoCompra.length; i++) {
-      if (objetosIguales(carritoCompra[i], producto)) {
-        indexProductoEnCarrito = i;
-        break;
-      }
-    }
-
-    if (indexProductoEnCarrito >= 0) {
-      carritoCompra[indexProductoEnCarrito].cantidad++;
-    } else {
-      producto.cantidad = 1;
-      carritoCompra.push(producto);
-    }
-
-    console.log("Carrito:", carritoCompra);
-    mostrarCarrito();
-    guardarCarrito();
-  });
-
-  card.appendChild(titulo);
-  card.appendChild(foto);
-  card.appendChild(precio);
-  card.appendChild(listaCaracteristicas);
-  card.appendChild(boton);
-  contenedorProductos.appendChild(card);
-});
-
-const iconCart = document.querySelector(".icon-cart");
-const aparecer = document.querySelector(".aparecer");
-
-iconCart.addEventListener("click", () => {
-  aparecer.style.right = aparecer.style.right === "0px" ? "-510px" : "0px";
-});
-
-cargarCarrito();
-mostrarCarrito();
+// Cargar la información inicial 
+cargarInformacionInicial();

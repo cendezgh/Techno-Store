@@ -1,0 +1,177 @@
+{ "televisores": [
+    {
+      "grupo": "Televisor",
+      "marca": "Samsung",
+      "imagen": "./images/tv-samsung55.webp",
+      "pulgadas": 55,
+      "tecnologia": "LED",
+      "precio": 800
+    },
+    {
+      "grupo": "Televisor",
+      "marca": "LG",
+      "imagen": "./images/tv-lg50.webp",
+      "pulgadas": 50,
+      "tecnologia": "OLED",
+      "precio": 1200
+    },
+    {
+      "grupo": "Televisor",
+      "marca": "Samsung",
+      "imagen": "./images/tv-samsung65.webp",
+      "pulgadas": 65,
+      "tecnologia": "QLED",
+      "precio": 1500
+    },
+    {
+      "grupo": "Televisor",
+      "marca": "Sony",
+      "imagen": "./images/tv-sony65.webp",
+      "pulgadas": 65,
+      "tecnologia": "LED",
+      "precio": 700
+    },
+    {
+      "grupo": "Televisor",
+      "marca": "LG",
+      "imagen": "./images/tv-lg60.webp",
+      "pulgadas": 60,
+      "tecnologia": "QLED",
+      "precio": 2000
+    }
+  ],
+  
+  "audifonos" : [
+    {
+      "grupo": "Audifono",
+      "marca": "Bose",
+      "imagen": "./images/audi-bose-20-i.webp",
+      "potencia": 20,
+      "tipo": "inalámbricos",
+      "precio": 100
+    },
+    {
+      "grupo": "Audifono",
+      "marca": "JBL",
+      "imagen": "./images/audi-jbl-30-a.webp",
+      "potencia": 30,
+      "tipo": "alámbricos",
+      "precio": 50
+    },
+    {
+      "grupo": "Audifono",
+      "marca": "Sony",
+      "imagen": "./images/audi-sony-25-i.webp",
+      "potencia": 25,
+      "tipo": "inalámbricos",
+      "precio": 75
+    },
+    {
+      "grupo": "Audifono",
+      "marca": "Bose",
+      "imagen": "./images/audi-bose-15-i.webp",
+      "potencia": 15,
+      "tipo": "inalámbricos",
+      "precio": 80
+    },
+    {
+      "grupo": "Audifono",
+      "marca": "JBL",
+      "imagen": "./images/audi-jbl-35-i.webp",
+      "potencia": 35,
+      "tipo": "inalámbricos",
+      "precio": 120
+    }
+  ],
+  
+  "proyectores" : [
+    {
+      "grupo": "Proyector",
+      "marca": "Epson",
+      "imagen": "./images/proy-epson-2000.webp",
+      "lumens": 2000,
+      "precio": 400
+    },
+    {
+      "grupo": "Proyector",
+      "marca": "BenQ",
+      "imagen": "./images/proy-benq-2500.webp",
+      "lumens": 2500,
+      "precio": 550
+    },
+    {
+      "grupo": "Proyector",
+      "marca": "Epson",
+      "imagen": "./images/proy-epson-3500.webp",
+      "lumens": 3500,
+      "precio": 700
+    },
+    {
+      "grupo": "Proyector",
+      "marca": "Epson",
+      "imagen": "./images/proy-epson-1500.webp",
+      "lumens": 1500,
+      "precio": 300
+    },
+    {
+      "grupo": "Proyector",
+      "marca": "BenQ",
+      "imagen": "./images/proy-benq-3500.webp",
+      "lumens": 3500,
+      "precio": 900
+    }
+  ],
+  
+  "smartphones" : [
+    {
+      "grupo": "Smartphone",
+      "marca": "Samsung",
+      "imagen": "./images/phone-samsung-6.1.webp",
+      "pantalla": "6.1 pulgadas",
+      "ram": "4GB",
+      "capacidad": "128GB",
+      "procesador": "Snapdragon 765",
+      "precio": 400
+    },
+    {
+      "grupo": "Smartphone",
+      "marca": "Xiaomi",
+      "imagen": "./images/phone-xiaomi-6.5.webp",
+      "pantalla": "6.5 pulgadas",
+      "ram": "6GB",
+      "capacidad": "128GB",
+      "procesador": "MediaTek Helio G95",
+      "precio": 300
+    },
+    {
+      "grupo": "Smartphone",
+      "marca": "Samsung",
+      "imagen": "./images/phone-samsung-5.8.webp",
+      "pantalla": "5.8 pulgadas",
+      "ram": "3GB",
+      "capacidad": "64GB",
+      "procesador": "Apple A14",
+      "precio": 800
+    },
+    {
+      "grupo": "Smartphone",
+      "marca": "OnePlus",
+      "imagen": "./images/phone-oneplus-6.7.webp",
+      "pantalla": "6.7 pulgadas",
+      "ram": "8GB",
+      "capacidad": "256GB",
+      "procesador": "Qualcomm Snapdragon 888",
+      "precio": 1200
+    },
+    {
+      "grupo": "Smartphone",
+      "marca": "Xiaomi",
+      "imagen": "./images/phone-xiaomi-6.2.webp",
+      "pantalla": "6.2 pulgadas",
+      "ram": "4GB",
+      "capacidad": "64GB",
+      "procesador": "Exynos 9611",
+      "precio": 250
+    }
+  ]
+}
