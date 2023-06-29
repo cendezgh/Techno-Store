@@ -3,13 +3,14 @@ let televisores = [];
 let audifonos = [];
 let proyectores = [];
 let smartphones = [];
+// Arreglo para almacenar los productos que se encuentran en el carrito de compra
+let carritoCompra = [];
 
 // Función para cargar la información inicial desde un archivo JSON
 function cargarInformacionInicial() {
   fetch("productos.json")
     .then((response) => response.json())
     .then((data) => {
-
       // Obtener los arrays de cada producto
       televisores = data.televisores;
       audifonos = data.audifonos;
@@ -22,33 +23,6 @@ function cargarInformacionInicial() {
         proyectores,
         smartphones
       );
-
-      // Arreglo para almacenar los productos que se encuentran en el carrito de compra
-      let carritoCompra = [];
-
-      // Función para guardar el contenido del carrito de compra en localStorage
-      function guardarCarrito() {
-        localStorage.setItem("carrito", JSON.stringify(carritoCompra));
-      }
-
-      // Función para cargar el contenido del carrito de compra previamente guardado en localStorage
-      function cargarCarrito() {
-        const carritoGuardado = localStorage.getItem("carrito");
-        if (carritoGuardado) {
-          carritoCompra = JSON.parse(carritoGuardado);
-        }
-
-        const cantidadEnCarrito = localStorage.getItem("cantidad-carrito");
-        const contador = document.getElementById("contador-carrito");
-
-        if (cantidadEnCarrito === null || parseInt(cantidadEnCarrito) === 0) {
-          contador.classList.add("esconder");
-          contador.textContent = "0";
-        } else {
-          contador.classList.remove("esconder");
-          contador.textContent = cantidadEnCarrito;
-        }
-      }
 
       // Función para mostrar los productos que se encuentran en el carrito de compra
       function mostrarCarrito() {
@@ -94,7 +68,8 @@ function cargarInformacionInicial() {
           contador.textContent = cantidadEnCarrito;
         }
 
-        // Recorrer los productos que se encuentran en el carrito y crear elementos HTML para cada uno
+        const fragmento = document.createDocumentFragment();
+
         carritoCompra.forEach((producto) => {
           const productoDiv = document.createElement("div");
 
@@ -119,31 +94,42 @@ function cargarInformacionInicial() {
 
           // Listener Remover el producto del carrito cuando se hace click en el icono correspondiente
           eliminarIcono.addEventListener("click", () => {
-            let index = carritoCompra.findIndex((item) =>
-              objetosIguales(item, producto)
-            );
-            carritoCompra.splice(index, 1);
-            cantidadEnCarrito = carritoCompra.reduce(
-              (total, producto) => total + producto.cantidad,
-              0
-            );
-            localStorage.setItem(
-              "cantidad-carrito",
-              cantidadEnCarrito.toString()
-            );
-            guardarCarrito();
-            mostrarCarrito();
+            Swal.fire({
+              title: "Deseas eliminar este item?",
+              icon: "warning",
+              showCancelButton: true,
+              confirmButtonColor: "#0a192f",
+              cancelButtonText: "Cancelar",
+              cancelButtonColor: "#d33",
+              confirmButtonText: "Sí, eliminarlo",
+            }).then((result) => {
+              if (result.isConfirmed) {
+                const index = carritoCompra.findIndex((item) =>
+                  objetosIguales(item, producto)
+                );
+                carritoCompra.splice(index, 1);
+                cantidadEnCarrito -= producto.cantidad;
+                localStorage.setItem(
+                  "cantidad-carrito",
+                  cantidadEnCarrito.toString()
+                );
+                guardarCarrito();
+                mostrarCarrito();
+              }
+            });
           });
 
-          // Agregar los elementos HTML creados para cada producto al contenedor general del carrito
+          // Agregar los elementos HTML creados para cada producto al fragmento
           productoDiv.appendChild(miniFoto);
           productoDiv.appendChild(tituloMarcaGrupoDiv);
           productoDiv.appendChild(cantidadDiv);
           productoDiv.appendChild(valorTotalDiv);
           productoDiv.appendChild(eliminarIcono);
 
-          contenedorCarrito.appendChild(productoDiv);
+          fragmento.appendChild(productoDiv);
         });
+
+        contenedorCarrito.appendChild(fragmento);
 
         // Agregar un elemento HTML que muestre el valor total del contenido actual del carrito de compra
         const valorTotalCarritoTitle = document.createElement("h4");
@@ -157,32 +143,26 @@ function cargarInformacionInicial() {
 
         // Listener Vaciar el contenido cuando se hace click en el botón correspondiente
         botonVaciar.addEventListener("click", () => {
-          carritoCompra = [];
-          localStorage.removeItem("carrito");
-          localStorage.setItem("cantidad-carrito", "0");
-          mostrarCarrito();
-        });
+          Swal.fire({
+            title: "Deseas vaciar el carrito?",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#0a192f",
+            cancelButtonText: "Cancelar",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Sí, vaciarlo",
+          }).then((result) => {
+            if (result.isConfirmed) {
+              carritoCompra = [];
+              localStorage.removeItem("carrito");
+              localStorage.setItem("cantidad-carrito", "0");
+              mostrarCarrito();
+            }
+          });
+        }
+        );
 
         contenedorCarrito.appendChild(botonVaciar);
-      }
-
-      // Función para determinar si dos objetos son iguales, comparando sus propiedades
-      function objetosIguales(objeto1, objeto2) {
-        const propsObj1 = Object.getOwnPropertyNames(objeto1);
-        const propsObj2 = Object.getOwnPropertyNames(objeto2);
-
-        if (propsObj1.length !== propsObj2.length) {
-          return false;
-        }
-
-        for (let i = 0; i < propsObj1.length; i++) {
-          const propName = propsObj1[i];
-          if (objeto1[propName] !== objeto2[propName]) {
-            return false;
-          }
-        }
-
-        return true;
       }
 
       // Obtener el contenedor HTML donde se agregarán los productos a la venta
@@ -273,5 +253,5 @@ function cargarInformacionInicial() {
     });
 }
 
-// Cargar la información inicial 
+// Cargar la información inicial
 cargarInformacionInicial();
